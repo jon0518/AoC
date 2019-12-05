@@ -6,26 +6,11 @@ using System.Linq;
 namespace AoC._2019._02
 {
     class Solver : AbstractSolver, ISolver
-    {
-        private void process(int[] inputs)
-        {
-            int i = 0;
-            while(inputs[i] != 99)
-            {
-                inputs[inputs[i + 3]] = inputs[i] == 1 ? (inputs[inputs[i + 1]] + inputs[inputs[i + 2]]) : (inputs[inputs[i + 1]] * inputs[inputs[i + 2]]);
-                i += 4;
-            }
-            foreach(var val in inputs)
-            {
-                Console.Write(val + ",");
-            }
-            Console.WriteLine();
-            Console.WriteLine(inputs[0]);
-        }
+    {       
 
         public void SolvePart1()
         {
-            
+            Console.WriteLine(solve(12,2));
         }
 
         int solve(int noun, int verb)
@@ -33,7 +18,7 @@ namespace AoC._2019._02
             var input = base.GetInput().Split(',').Select(int.Parse).ToArray();
             input[1] = noun;
             input[2] = verb;
-            process(input);
+            Calculator.Process(input);
             return input[0];
         }
 
@@ -51,7 +36,7 @@ namespace AoC._2019._02
         public void TestPart1()
         {
             var input = "1,1,1,4,99,5,6,0,99".Split(',').Select(int.Parse).ToArray();
-            process(input);
+            Calculator.Process(input);
         }
 
         public void TestPart2()

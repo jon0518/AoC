@@ -10,12 +10,25 @@ namespace AoC._2019._05
     {
         public void SolvePart1()
         {
-            throw new NotImplementedException();
+            var inputs = base.GetInput().Split(',').Select(int.Parse).ToArray();
+            var outputs = Calculator.Process(inputs, 1);
+            foreach (var i in outputs)
+            {
+                Console.Write(i + ",");
+            }
+            Console.WriteLine();
+                    
         }
 
         public void SolvePart2()
         {
-            throw new NotImplementedException();
+            var inputs = base.GetInput().Split(',').Select(int.Parse).ToArray();
+            var outputs = Calculator.Process(inputs, 5);
+            foreach (var i in outputs)
+            {
+                Console.Write(i + ",");
+            }
+            Console.WriteLine();
         }
 
         public void TestPart1()
