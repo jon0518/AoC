@@ -2,4 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/AoC/v15/Server/sqlite3
+/.vs
+/AoC/bin
+/AoC/obj
