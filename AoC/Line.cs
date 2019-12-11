@@ -18,29 +18,22 @@ namespace AoC
 
         public bool Intersects(Point point)
         {
+            if(From.X - To.X == 0)
+            {
+                return point.X == From.X && ((From.Y <= point.Y && point.Y <= To.Y) || (To.Y <= point.Y && point.Y <= From.Y));
+            }
+            if (From.Y - To.Y == 0)
+            {
+                return point.Y == From.Y && ((From.X <= point.X && point.X <= To.X) || (To.X <= point.X && point.X <= From.X));
+            }
+            var slope = GetSlope();
+            var intercept = From.Y - (slope * From.X);
+            return point.Y == Math.Round((slope * point.X) + intercept,10) && ((From.X <= point.X && point.X <= To.X) || (To.X <= point.X && point.X <= From.X));
+        }
 
-            Point left, right, top, bottom;
-            if (From.X < To.X)
-            {
-                left = From;
-                right = To;
-            }
-            else
-            {
-                left = To;
-                right = From;
-            }
-            if (From.Y < To.Y)
-            {
-                bottom = From;
-                top = To;
-            }
-            else
-            {
-                bottom = To;
-                top = From;
-            }
-            return point.X <= right.X && point.X >= left.X && point.Y <= top.Y && point.Y >= bottom.Y;
+        public double GetSlope()
+        {
+            return Convert.ToDouble(From.Y - To.Y) / (From.X - To.X);
         }
 
         public bool Intersects(Line line)

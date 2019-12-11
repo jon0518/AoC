@@ -13,9 +13,9 @@ namespace AoC._2019._02
             Console.WriteLine(solve(12,2));
         }
 
-        int solve(int noun, int verb)
+        long solve(int noun, int verb)
         {
-            var input = base.GetInput().Split(',').Select(int.Parse).ToArray();
+            var input = base.GetInput().Split(',').Select(long.Parse).ToArray();
             input[1] = noun;
             input[2] = verb;
             Calculator.Process(input);
@@ -35,7 +35,7 @@ namespace AoC._2019._02
 
         public void TestPart1()
         {
-            var input = "1,1,1,4,99,5,6,0,99".Split(',').Select(int.Parse).ToArray();
+            var input = "1,1,1,4,99,5,6,0,99".Split(',').Select(long.Parse).ToArray();
             Calculator.Process(input);
         }
 

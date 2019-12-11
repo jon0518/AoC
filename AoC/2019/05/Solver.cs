@@ -10,7 +10,7 @@ namespace AoC._2019._05
     {
         public void SolvePart1()
         {
-            var inputs = base.GetInput().Split(',').Select(int.Parse).ToArray();
+            var inputs = base.GetInput().Split(',').Select(long.Parse).ToArray();
             var outputs = Calculator.Process(inputs, 1);
             foreach (var i in outputs)
             {
@@ -22,7 +22,7 @@ namespace AoC._2019._05
 
         public void SolvePart2()
         {
-            var inputs = base.GetInput().Split(',').Select(int.Parse).ToArray();
+            var inputs = base.GetInput().Split(',').Select(long.Parse).ToArray();
             var outputs = Calculator.Process(inputs, 5);
             foreach (var i in outputs)
             {
