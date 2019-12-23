@@ -6,39 +6,20 @@ using System.Text.RegularExpressions;
 
 namespace AoC._2019._05
 {
-    class Solver : AbstractSolver, ISolver
+    public class Solver : AbstractSolver, ISolver
     {
-        public void SolvePart1()
+        public string SolvePart1(IEnumerable<string> inputLines)
         {
-            var inputs = base.GetInput().Split(',').Select(long.Parse).ToArray();
+            var inputs = inputLines.First().Split(',').Select(long.Parse).ToArray();
             var outputs = Calculator.Process(inputs, 1);
-            foreach (var i in outputs)
-            {
-                Console.Write(i + ",");
-            }
-            Console.WriteLine();
-                    
+            return string.Join(',', outputs);
         }
 
-        public void SolvePart2()
+        public string SolvePart2(IEnumerable<string> inputLines)
         {
-            var inputs = base.GetInput().Split(',').Select(long.Parse).ToArray();
+            var inputs = inputLines.First().Split(',').Select(long.Parse).ToArray();
             var outputs = Calculator.Process(inputs, 5);
-            foreach (var i in outputs)
-            {
-                Console.Write(i + ",");
-            }
-            Console.WriteLine();
-        }
-
-        public void TestPart1()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TestPart2()
-        {
-            throw new NotImplementedException();
+            return string.Join(',', outputs);
         }
     }
 }

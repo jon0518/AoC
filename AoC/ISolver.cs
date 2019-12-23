@@ -6,9 +6,8 @@ namespace AoC
 {
     public interface ISolver
     {
-        void TestPart1();       
-        void SolvePart1();
-        void TestPart2();
-        void SolvePart2();
+        string SolvePart1(IEnumerable<string> inputLines);
+        string SolvePart2(IEnumerable<string> inputLines);
+        IEnumerable<string> GetInputLines();
     }
 }

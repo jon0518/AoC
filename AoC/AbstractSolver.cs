@@ -8,12 +8,7 @@ namespace AoC
 {
     public abstract class AbstractSolver 
     {
-        protected string GetInput()
-        {            
-            return File.ReadAllText(GetInputFile());
-        }
-
-        protected List<string> GetInputLines()
+        public IEnumerable<string> GetInputLines()
         {
             return File.ReadAllLines(GetInputFile()).ToList();
         }

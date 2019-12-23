@@ -6,8 +6,10 @@ namespace AoC._2019
 {
     public class Calculator
     {
-        public static List<long> Process(long[] ins, long input = 1, int phase = 1)
+        public static List<long> Process(long[] ins, long input = 1, long? phase = null)
         {
+            if (!phase.HasValue)
+                phase = input;
             var inputs = new Dictionary<long, long>();
             for(int j =0; j<ins.Length; j++)
             {
@@ -40,7 +42,7 @@ namespace AoC._2019
                 }
                 if (opcode == 3)
                 {
-                    inputs[GetReferenceLocation(inputs, parm1mode, i + 1, relativeShift)] = phaseUsed ? input : phase;
+                    inputs[GetReferenceLocation(inputs, parm1mode, i + 1, relativeShift)] = phaseUsed ? input : phase.Value;
                     phaseUsed = true;
                     i += 2;
                 }
@@ -96,6 +98,10 @@ namespace AoC._2019
                     relativeShift += parm1;
                     i += 2;
                 }
+            }
+            for(int ct = 0; ct < ins.Length; ct++)
+            {
+                ins[ct] = inputs[ct];
             }
             return outputs;
         }

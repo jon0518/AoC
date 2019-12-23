@@ -6,13 +6,8 @@ using System.Text.RegularExpressions;
 
 namespace AoC._2019._04
 {
-    class Solver : AbstractSolver, ISolver
+    public class Solver : AbstractSolver, ISolver
     {
-        public void SolvePart1()
-        {
-            var input = base.GetInput().Split('-').Select(int.Parse).ToArray();
-            Console.WriteLine(GetValue(1, string.Empty, input[0], input[1], 1));
-        }
 
         int GetValue(int i, string number, int min, int max, int part)
         {
@@ -33,20 +28,16 @@ namespace AoC._2019._04
             return count;
         }
 
-        public void SolvePart2()
+        public string SolvePart1(IEnumerable<string> inputLines)
         {
-            var input = base.GetInput().Split('-').Select(int.Parse).ToArray();
-            Console.WriteLine(GetValue(1, string.Empty, input[0], input[1], 2));
+            var input = inputLines.First().Split('-').Select(int.Parse).ToArray();
+            return GetValue(1, string.Empty, input[0], input[1], 1).ToString();
         }
 
-        public void TestPart1()
+        public string SolvePart2(IEnumerable<string> inputLines)
         {
-            throw new NotImplementedException();
-        }
-
-        public void TestPart2()
-        {
-            throw new NotImplementedException();
+            var input = inputLines.First().Split('-').Select(int.Parse).ToArray();
+            return GetValue(1, string.Empty, input[0], input[1], 2).ToString();
         }
     }
 }

@@ -6,47 +6,8 @@ using System.Text.RegularExpressions;
 
 namespace AoC._2019._06
 {
-    class Solver : AbstractSolver, ISolver
+    public class Solver : AbstractSolver, ISolver
     {
-        public void SolvePart1()
-        {
-            var n = GetTree(base.GetInputLines());
-            Console.WriteLine(n.Values.Sum(CountPaths));
-        }
-
-        public void SolvePart2()
-        {
-            var n = GetTree(base.GetInputLines());
-            var min = int.MaxValue;
-            foreach(var node in n.Values)
-            {
-                var youVal = CountToDestination(node, "YOU", 0);
-                var sanVal = CountToDestination(node, "SAN", 0);
-                if(youVal != -1 && sanVal != -1)
-                {
-                    min = Math.Min(min, youVal + sanVal -2);
-                }
-            }
-            Console.WriteLine(min);
-        }
-
-        public void TestPart1()
-        {
-            var input = @"COM)B
-B)C
-C)D
-D)E
-E)F
-B)G
-G)H
-D)I
-E)J
-J)K
-K)L";
-            var n = GetTree(input.Split(Environment.NewLine).ToList());
-            Console.WriteLine(n.Values.Sum(CountPaths));
-        }
-
         int CountToDestination(TreeNode<string> node, string target, int steps)
         {
             if (node.Value == target)
@@ -108,9 +69,26 @@ K)L";
             return nodes;
         }
 
-        public void TestPart2()
+        public string SolvePart1(IEnumerable<string> inputLines)
         {
-            throw new NotImplementedException();
+            var n = GetTree(inputLines.ToList());
+            return n.Values.Sum(CountPaths).ToString();
+        }
+
+        public string SolvePart2(IEnumerable<string> inputLines)
+        {
+            var n = GetTree(inputLines.ToList());
+            var min = int.MaxValue;
+            foreach (var node in n.Values)
+            {
+                var youVal = CountToDestination(node, "YOU", 0);
+                var sanVal = CountToDestination(node, "SAN", 0);
+                if (youVal != -1 && sanVal != -1)
+                {
+                    min = Math.Min(min, youVal + sanVal - 2);
+                }
+            }
+            return min.ToString();
         }
     }
 }

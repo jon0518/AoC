@@ -6,14 +6,11 @@ using System.Text.RegularExpressions;
 
 namespace AoC._2019._08
 {
-    class Solver : AbstractSolver, ISolver
+    public class Solver : AbstractSolver, ISolver
     {
         public void SolvePart1()
         {
-            var layers = Parse(base.GetInput());
-            var min0 = layers.Min(x => GetCount(x, 0));
-            var layer = layers.First(x => GetCount(x, 0) == min0);
-            Console.WriteLine(GetCount(layer, 1) * GetCount(layer, 2));
+            
         }
 
         int GetCount(int[,] grid, int val)
@@ -33,22 +30,7 @@ namespace AoC._2019._08
 
         public void SolvePart2()
         {
-            var layers = Parse(base.GetInput());
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 25; j++)
-                {
-                    if(IsBlack(layers,j,i))
-                    {
-                        Console.Write("X");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                }
-                Console.WriteLine();
-            }
+            
         }
 
         bool IsBlack(List<int[,]> layers, int i, int j)
@@ -87,6 +69,36 @@ namespace AoC._2019._08
         public void TestPart2()
         {
             throw new NotImplementedException();
+        }
+
+        public string SolvePart1(IEnumerable<string> inputLines)
+        {
+            var layers = Parse(inputLines.First());
+            var min0 = layers.Min(x => GetCount(x, 0));
+            var layer = layers.First(x => GetCount(x, 0) == min0);
+            return (GetCount(layer, 1) * GetCount(layer, 2)).ToString();
+        }
+
+        public string SolvePart2(IEnumerable<string> inputLines)
+        {
+            var layers = Parse(inputLines.First());
+            var sb = new StringBuilder();
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    if (IsBlack(layers, j, i))
+                    {
+                        sb.Append("X");
+                    }
+                    else
+                    {
+                        sb.Append(" ");
+                    }
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

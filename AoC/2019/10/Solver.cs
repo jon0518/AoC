@@ -6,83 +6,31 @@ using System.Text.RegularExpressions;
 
 namespace AoC._2019._10
 {
-    class Solver : AbstractSolver, ISolver
+    public class Solver : AbstractSolver, ISolver
     {
-        public void SolvePart1()
-        {
-            var ans = solve1(base.GetInputLines());
-            Console.WriteLine(ans.Item1);
-        }
 
-        public void SolvePart2()
-        {
-            var point = solve2(base.GetInputLines());
-            Console.WriteLine(100 * point?.X + point?.Y);
-        }
+        Point placedAt;
 
-        Point solve2(List<string> rows)
+        List<Point> ParseMap(List<string> rows)
         {
-            var point = solve1(rows).Item2;
-            var asteroids = ParseMap(rows);
-            var destroyed = new HashSet<Point>();
-            var above = asteroids.Where(a => a.X == point.X && a.Y < point.Y).OrderByDescending(x => x.Y);
-            var below = asteroids.Where(a => a.X == point.X && a.Y > point.Y).OrderBy(x => x.Y);
-            var right = asteroids.Where(a => a.X > point.X).GroupBy(a => new Line(a, point).GetSlope()).OrderBy(k => k.Key);
-            var left = asteroids.Where(a => a.X < point.X).GroupBy(a => new Line(a, point).GetSlope()).OrderBy(k => k.Key);
-            Point toDestroy = null;
-            while (destroyed.Count < asteroids.Count - 1)
+            var points = new List<Point>();
+            for (int y = 0; y < rows.Count; y++)
             {
-                toDestroy = above.FirstOrDefault(x => !destroyed.Contains(x));
-                if (toDestroy != null)
+                for (int x = 0; x < rows[y].Length; x++)
                 {
-                    destroyed.Add(toDestroy);
-                }
-                if (destroyed.Count == 200)
-                {
-                    return toDestroy;
-                }
-                foreach (var asteroidGroup in right)
-                {
-                    toDestroy = asteroidGroup.OrderBy(x => Math.Abs(x.X - point.X) + Math.Abs(x.Y - point.Y)).FirstOrDefault(x => !destroyed.Contains(x));
-                    if (toDestroy != null)
+                    if (rows[y][x] == '#')
                     {
-                        destroyed.Add(toDestroy);
-                    }
-                    if (destroyed.Count == 200)
-                    {
-                        return toDestroy;
-                    }
-                }
-                toDestroy = below.FirstOrDefault(x => !destroyed.Contains(x));
-                if (toDestroy != null)
-                {
-                    destroyed.Add(toDestroy);
-                }
-                if (destroyed.Count == 200)
-                {
-                    return toDestroy;
-                }
-                foreach (var asteroidGroup in left)
-                {
-                    toDestroy = asteroidGroup.OrderBy(x => Math.Abs(x.X - point.X) + Math.Abs(x.Y - point.Y)).FirstOrDefault(x => !destroyed.Contains(x));
-                    if (toDestroy != null)
-                    {
-                        destroyed.Add(toDestroy);
-                    }
-                    if (destroyed.Count == 200)
-                    {
-                        return toDestroy;
+                        points.Add(new Point(x, y));
                     }
                 }
             }
-            return toDestroy;
-        }
+            return points;
+        }        
 
-        Tuple<int, Point> solve1(List<string> rows)
+        public string SolvePart1(IEnumerable<string> inputLines)
         {
-            var asteroids = ParseMap(rows);
+            var asteroids = ParseMap(inputLines.ToList());
             var max = 0;
-            Point placedAt = null;
             foreach (var a in asteroids)
             {
                 var count = -1;
@@ -101,73 +49,66 @@ namespace AoC._2019._10
                 }
 
             }
-            return new Tuple<int, Point>(max, placedAt);
+            return max.ToString();
         }
 
-        List<Point> ParseMap(List<string> rows)
+        public string SolvePart2(IEnumerable<string> inputLines)
         {
-            var points = new List<Point>();
-            for (int y = 0; y < rows.Count; y++)
+            SolvePart1(inputLines);
+            var point = placedAt;
+            var asteroids = ParseMap(inputLines.ToList());
+            var destroyed = new HashSet<Point>();
+            var above = asteroids.Where(a => a.X == point.X && a.Y < point.Y).OrderByDescending(x => x.Y);
+            var below = asteroids.Where(a => a.X == point.X && a.Y > point.Y).OrderBy(x => x.Y);
+            var right = asteroids.Where(a => a.X > point.X).GroupBy(a => new Line(a, point).GetSlope()).OrderBy(k => k.Key);
+            var left = asteroids.Where(a => a.X < point.X).GroupBy(a => new Line(a, point).GetSlope()).OrderBy(k => k.Key);
+            Point toDestroy = null;
+            while (destroyed.Count < asteroids.Count - 1)
             {
-                for (int x = 0; x < rows[y].Length; x++)
+                toDestroy = above.FirstOrDefault(x => !destroyed.Contains(x));
+                if (toDestroy != null)
                 {
-                    if (rows[y][x] == '#')
+                    destroyed.Add(toDestroy);
+                }
+                if (destroyed.Count == 200)
+                {
+                    return (100 * toDestroy.X + toDestroy.Y).ToString();
+                }
+                foreach (var asteroidGroup in right)
+                {
+                    toDestroy = asteroidGroup.OrderBy(x => Math.Abs(x.X - point.X) + Math.Abs(x.Y - point.Y)).FirstOrDefault(x => !destroyed.Contains(x));
+                    if (toDestroy != null)
                     {
-                        points.Add(new Point(x, y));
+                        destroyed.Add(toDestroy);
+                    }
+                    if (destroyed.Count == 200)
+                    {
+                        return (100 * toDestroy.X + toDestroy.Y).ToString();
+                    }
+                }
+                toDestroy = below.FirstOrDefault(x => !destroyed.Contains(x));
+                if (toDestroy != null)
+                {
+                    destroyed.Add(toDestroy);
+                }
+                if (destroyed.Count == 200)
+                {
+                    return (100 * toDestroy.X + toDestroy.Y).ToString();
+                }
+                foreach (var asteroidGroup in left)
+                {
+                    toDestroy = asteroidGroup.OrderBy(x => Math.Abs(x.X - point.X) + Math.Abs(x.Y - point.Y)).FirstOrDefault(x => !destroyed.Contains(x));
+                    if (toDestroy != null)
+                    {
+                        destroyed.Add(toDestroy);
+                    }
+                    if (destroyed.Count == 200)
+                    {
+                        return (100 * toDestroy.X + toDestroy.Y).ToString();
                     }
                 }
             }
-            return points;
-        }
-
-        public void TestPart1()
-        {
-            var ans = solve1(@".#..##.###...#######
-##.############..##.
-.#.######.########.#
-.###.#######.####.#.
-#####.##.#.##.###.##
-..#####..#.#########
-####################
-#.####....###.#.#.##
-##.#################
-#####.##.###..####..
-..######..##.#######
-####.##.####...##..#
-.#####..#.######.###
-##...#.##########...
-#.##########.#######
-.####.#.###.###.#.##
-....##.##.###..#####
-.#.#.###########.###
-#.#.#.#####.####.###
-###.##.####.##.#..##".Split(Environment.NewLine).ToList());
-            Console.WriteLine(ans.Item1);
-        }
-
-        public void TestPart2()
-        {
-            var point = solve2(@".#..##.###...#######
-##.############..##.
-.#.######.########.#
-.###.#######.####.#.
-#####.##.#.##.###.##
-..#####..#.#########
-####################
-#.####....###.#.#.##
-##.#################
-#####.##.###..####..
-..######..##.#######
-####.##.####...##..#
-.#####..#.######.###
-##...#.##########...
-#.##########.#######
-.####.#.###.###.#.##
-....##.##.###..#####
-.#.#.###########.###
-#.#.#.#####.####.###
-###.##.####.##.#..##".Split(Environment.NewLine).ToList());
-            
+            return string.Empty;
         }
     }
 }
